@@ -9,9 +9,52 @@ using System.Text.RegularExpressions;
 
 public class RobotOnMoon
 {
-    public string isSafeCommand(string[] board, string S)
-    {
-        return default(string);
+    
+    public String isSafeCommand(String[] board, String commands) {
+        int n = board.Length;
+        int m = board[0].Length;
+        int startX = -1, startY = -1;
+    
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (board[i][j] == 'S') {
+                    startX = i;
+                    startY = j;
+                    break;
+                }
+            }
+            if(startX != -1) break;
+        }
+    
+        int x = startX, y = startY;
+    
+        for (int i = 0; i < commands.Length; i++)
+        {
+            char command = commands[i];
+            int newX = x, newY = y;
+            if (command == 'U') {
+                newX = x - 1;
+            } else if (command == 'D') {
+                newX = x + 1;
+            } else if (command == 'L') {
+                newY = y - 1;
+            } else if (command == 'R') {
+                newY = y + 1;
+            }
+        
+            if (newX < 0 || newX >= n || newY < 0 || newY >= m) {
+                return "Dead";
+            }
+        
+            if (board[newX][newY] == '#') {
+
+            } else {
+                x = newX;
+                y = newY;
+            }
+        }
+    
+        return "Alive";
     }
 
     #region Testing code
