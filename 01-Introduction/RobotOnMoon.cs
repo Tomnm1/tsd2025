@@ -47,7 +47,8 @@ public class RobotOnMoon
             }
         
             if (board[newX][newY] == '#') {
-
+                //played died
+    
             } else {
                 x = newX;
                 y = newY;
