@@ -3,6 +3,32 @@ using GoldSavings.App.Model;
 using GoldSavings.App.Client;
 namespace GoldSavings.App;
 
+public class RandomList<T>
+{
+    private readonly List<T> _list = [];
+    private readonly Random _random = new();
+
+    public void Add(T element)
+    {
+        if (_random.Next(2) == 0)
+            _list.Insert(0, element);  
+        else
+            _list.Add(element);
+    }
+
+    public T Get(int maxIndex)
+    {
+        if (IsEmpty)
+            throw new InvalidOperationException("The list is empty.");
+
+        int actualMaxIndex = Math.Min(maxIndex, _list.Count - 1);
+        int randomIndex = _random.Next(actualMaxIndex + 1);
+        return _list[randomIndex];
+    }
+
+    public bool IsEmpty => _list.Count == 0;
+}
+
 class Program
 {
     private static void Display(string name, IEnumerable<GoldPrice> prices)
@@ -267,5 +293,27 @@ class Program
         Console.WriteLine($"Loaded {loadedPrices.Count} prices from XML.");
         foreach(var price in loadedPrices)
             Console.WriteLine($"{price.Date:dd.MM.yyyy}: {price.Price}");
+        
+        // ex 2.1
+        
+        Console.WriteLine(isLeapYear(2024));
+        
+        // ex 2.2
+        var randomList = new RandomList<int>();
+    
+        randomList.Add(10);
+        randomList.Add(20);
+        randomList.Add(30);
+        randomList.Add(40);
+        randomList.Add(50);
+        
+        Console.WriteLine($"Is empty: {randomList.IsEmpty}");
+        
+        var randomElement = randomList.Get(3);
+        Console.WriteLine($"Randomly element: {randomElement}");
+
     }
+    private static Func<int, bool> isLeapYear = year => DateTime.IsLeapYear(year);
 }
+
+
